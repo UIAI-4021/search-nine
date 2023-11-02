@@ -6,24 +6,19 @@ from Search.Routing.Flight import Flight
 
 
 def dijkstra(graph: nx.DiGraph, start: Airport, end: Airport) -> list:
-    # Create a dictionary to store the shortest distance to each node
     distances = {node: float('inf') for node in graph.nodes()}
     distances[start] = 0
 
-    # Create a dictionary to store the previous node in the shortest path
     previous_nodes = {node: None for node in graph.nodes()}
 
-    # Create a set to store the unvisited nodes
     unvisited_nodes = set(graph.nodes())
 
     while unvisited_nodes:
-        # Select the unvisited node with the smallest distance
+
         current_node = min(unvisited_nodes, key=lambda node: distances[node])
 
-        # Remove the current node from the unvisited set
         unvisited_nodes.remove(current_node)
 
-        # If the current node is the end node, we have found the shortest path
         if current_node == end:
             path = []
             while previous_nodes[current_node] is not None:
@@ -33,14 +28,11 @@ def dijkstra(graph: nx.DiGraph, start: Airport, end: Airport) -> list:
             path.reverse()
             return path
 
-        # Update the distances to the neighbors of the current node
         for neighbor in graph.neighbors(current_node):
             distance = distances[current_node] + graph[current_node][neighbor]['weight'].cost_edge
             if distance < distances[neighbor]:
                 distances[neighbor] = distance
                 previous_nodes[neighbor] = current_node
-
-    # If we reach this point, there is no path between the start and end nodes
     return None
 
 
