@@ -22,7 +22,7 @@ class Flight:
         self.fly_time = fly_time
         self.price = price
 
-        self.cost_edge =  price + fly_time + distance
+        self.cost_edge = price + fly_time + distance
 
     def __eq__(self, other):
         return (self.airline == other.airline and self.source_airport == other.source_airport and

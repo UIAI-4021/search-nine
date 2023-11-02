@@ -5,7 +5,7 @@ from Search.Routing.Airport import Airport
 from Search.Routing.Flight import Flight
 
 
-def dijkstra(graph: nx.Graph, start: Airport, end: Airport) -> list:
+def dijkstra(graph: nx.DiGraph, start: Airport, end: Airport) -> list:
     # Create a dictionary to store the shortest distance to each node
     distances = {node: float('inf') for node in graph.nodes()}
     distances[start] = 0
@@ -35,7 +35,7 @@ def dijkstra(graph: nx.Graph, start: Airport, end: Airport) -> list:
 
         # Update the distances to the neighbors of the current node
         for neighbor in graph.neighbors(current_node):
-            distance = distances[current_node] + graph[current_node][neighbor]['weight']
+            distance = distances[current_node] + graph[current_node][neighbor]['weight'].cost_edge
             if distance < distances[neighbor]:
                 distances[neighbor] = distance
                 previous_nodes[neighbor] = current_node
@@ -50,7 +50,7 @@ if __name__ == '__main__':
     dataframe = pd.read_csv('Flight_Data.csv')
 
     # create graph
-    graph = nx.Graph()
+    graph = nx.DiGraph()
 
     for index, row in dataframe.iterrows():
         # create node
@@ -71,7 +71,7 @@ if __name__ == '__main__':
 
     source_inp, destination_inp = input().split(" - ")
 
-    check_source, check_destination = False
+    check_source, check_destination = False, False
     for vertex in graph.nodes:
         if check_source is True and check_destination is True:
             break
@@ -82,4 +82,8 @@ if __name__ == '__main__':
             destination_vertex = vertex
             check_destination = True
 
-    best: list = dijkstra(graph, source_vertex, destination_vertex)
+    best = dijkstra(graph, source_vertex, destination_vertex)
+    for airport in best:
+        print(airport.airport)
+
+
