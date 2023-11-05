@@ -1,5 +1,7 @@
 import networkx as nx
 import pandas as pd
+import math
+import heapq
 
 from Search.Routing.Airport import Airport
 from Search.Routing.Flight import Flight
@@ -73,5 +75,50 @@ if __name__ == '__main__':
     best = dijkstra(graph, source_vertex, destination_vertex)
     for airport in best:
         print(airport.airport)
+
+
+def haversine(latitude_source, longitude_source, latitude_destination, longitude_destination):
+    earth_r = 6371
+
+    latitude_source = math.radians(latitude_source)
+    longitude_source = math.radians(longitude_source)
+    latitude_destination = math.radians(latitude_destination)
+    longitude_destination = math.radians(longitude_destination)
+
+    distance_latitude = latitude_destination - latitude_source
+    distance_longitude = longitude_destination - longitude_source
+    a = math.sin(distance_latitude/2)**2 + (math.cos(latitude_source) *
+        math.cos(latitude_destination) * math.sin(distance_longitude/2)**2)
+
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+    return earth_r * c
+
+
+def a_stare(graph, start, goal):
+    open_list = []
+    closed_set = set()
+
+    heapq.heappush([start, 0 + haversine(start.latitude, start.longitude,
+                                         goal.latitude, goal.longitude)])
+
+    while open_list:
+        current_node = heapq.heappop(open_list)
+        if current_node[0] == goal:
+            return None # ناقض
+
+        if current_node in closed_set:
+            continue
+
+        closed_set.add(current_node)
+        # for neighbor, cost in graph[current_node]:
+        #     if neighbor not in closed_set:
+        #        neighbor_node =
+
+
+
+
+
+
 
 
