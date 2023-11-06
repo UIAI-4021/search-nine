@@ -38,6 +38,55 @@ def dijkstra(graph: nx.DiGraph, start: Airport, end: Airport) -> list:
     return None
 
 
+def heuristic(start, goal):
+    earth_r = 6371
+
+    latitude_source = math.radians(start.latitude)
+    longitude_source = math.radians(start.longitude)
+    latitude_destination = math.radians(goal.latitude)
+    longitude_destination = math.radians(goal.longitude)
+
+    distance_latitude = latitude_destination - latitude_source
+    distance_longitude = longitude_destination - longitude_source
+    a = math.sin(distance_latitude/2)**2 + ( math.cos(latitude_source) *
+        math.cos(latitude_destination) * math.sin(distance_longitude/2)**2)
+
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+    return earth_r * c
+
+
+def construct_path(node):
+    path = []
+    while node[1] is not None:
+        path.append(node[0])
+        node = node[1]
+    return list(reversed(path))
+
+
+def a_stare(graph, start, goal):
+    open_list = [(start, None, 0 + heuristic(start, goal))]
+    close_set = set()
+
+    while open_list:
+        current_node = heapq.heappop(open_list)
+
+        if current_node[0] == goal:
+            return construct_path(current_node)
+
+        if current_node[0] in close_set:
+            continue
+
+        close_set.add(current_node[0])
+
+        for neighbor, cost in graph[current_node[0]]:
+            if neighbor not in close_set:
+                gn = graph[current_node[0]][neighbor]['weight'].cost_edge
+                hn = heuristic(current_node, goal)
+                heapq.heappush(open_list, (neighbor, current_node[0], gn + hn))
+    return None
+
+
 if __name__ == '__main__':
 
     # read dateset
@@ -65,57 +114,16 @@ if __name__ == '__main__':
     for vertex in graph.nodes:
         if check_source is True and check_destination is True:
             break
-        elif vertex.airport == source_inp:
+        if vertex.airport == source_inp:
             source_vertex = vertex
             check_source = True
-        elif vertex.airport == destination_inp:
+        if vertex.airport == destination_inp:
             destination_vertex = vertex
             check_destination = True
 
-    best = dijkstra(graph, source_vertex, destination_vertex)
+    best = a_stare(graph, source_vertex, destination_vertex)
     for airport in best:
         print(airport.airport)
-
-
-def haversine(latitude_source, longitude_source, latitude_destination, longitude_destination):
-    earth_r = 6371
-
-    latitude_source = math.radians(latitude_source)
-    longitude_source = math.radians(longitude_source)
-    latitude_destination = math.radians(latitude_destination)
-    longitude_destination = math.radians(longitude_destination)
-
-    distance_latitude = latitude_destination - latitude_source
-    distance_longitude = longitude_destination - longitude_source
-    a = math.sin(distance_latitude/2)**2 + (math.cos(latitude_source) *
-        math.cos(latitude_destination) * math.sin(distance_longitude/2)**2)
-
-    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-
-    return earth_r * c
-
-
-def a_stare(graph, start, goal):
-    open_list = []
-    closed_set = set()
-
-    heapq.heappush([start, 0 + haversine(start.latitude, start.longitude,
-                                         goal.latitude, goal.longitude)])
-
-    while open_list:
-        current_node = heapq.heappop(open_list)
-        if current_node[0] == goal:
-            return None # ناقض
-
-        if current_node in closed_set:
-            continue
-
-        closed_set.add(current_node)
-        # for neighbor, cost in graph[current_node]:
-        #     if neighbor not in closed_set:
-        #        neighbor_node =
-
-
 
 
 
