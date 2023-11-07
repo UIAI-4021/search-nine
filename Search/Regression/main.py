@@ -60,6 +60,5 @@ def gradient_descent(start_x1, start_x2, start_x3, start_x4, start_x5, start_x6
 if __name__ == '__main__':
     dataset = pd.read_csv('Flight_Price_Dataset_Q2.csv')
 
-
     for index, row in dataset.iterrows():
         pass
