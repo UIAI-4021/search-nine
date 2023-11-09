@@ -163,62 +163,73 @@ if __name__ == '__main__':
     end_time = time.time()
     exetime_astar = end_time - start_time
 
-    file_dijkstra = open('nine-UIAI4021-PR1-Q1(Dijkstra).txt', 'w')
-    file_astar = open('nine-UIAI4021-PR1-Q1(A*).txt', 'w')
-
     #  write dijkstra
-    file_dijkstra.write("Dijkstra Algorithm\n")
-    file_dijkstra.write("Execution Time: {}s\n".format(exetime_dijkstra))
-    file_dijkstra.write(".-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-\n")
 
-    total_duration = 0
-    total_time = 0
-    total_price = 0
+    with open('nine-UIAI4021-PR1-Q1(Dijkstra).txt', 'w', encoding='utf-8') as file_dijkstra:
 
-    for i in range(len(best_dijkstra) - 1):
-        file_dijkstra.write("Flight #{}".format(i + 1))
-        flight_current = graph.get_edge_data(best_dijkstra[i], best_dijkstra[i + 1])['weight']
-        file_dijkstra.write("({})\n".format(flight_current.airline))
-        file_dijkstra.write("From: {}\n".format(best_dijkstra[i].airport))
-        file_dijkstra.write("To: {}\n".format(best_dijkstra[i + 1].airport))
-        file_dijkstra.write("Duration: {}km\n".format(flight_current.distance))
-        total_duration += flight_current.distance
-        file_dijkstra.write("Time: {}h\n".format(flight_current.fly_time))
-        total_time += flight_current.fly_time
-        file_dijkstra.write("Price: {}$\n".format(flight_current.price))
-        total_price += flight_current.price
-        file_dijkstra.write("----------------------------\n")
+        file_dijkstra.write("Dijkstra Algorithm\n")
+        file_dijkstra.write("Execution Time: {}s\n".format(exetime_dijkstra))
+        file_dijkstra.write(".-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-\n")
 
-    file_dijkstra.write("Total Price: {}$\n".format(total_price))
-    file_dijkstra.write("Total Duration: {}km\n".format(total_duration))
-    file_dijkstra.write("Total Time: {}h\n".format(total_time))
+        total_duration = 0
+        total_time = 0
+        total_price = 0
+
+        for i in range(len(best_dijkstra) - 1):
+            file_dijkstra.write("Flight #{}".format(i + 1))
+            flight_current = graph.get_edge_data(best_dijkstra[i], best_dijkstra[i + 1])['weight']
+            file_dijkstra.write("({})\n".format(flight_current.airline))
+            file_dijkstra.write("From: {airport} - {city}, {country}\n".format(
+                airport=best_dijkstra[i].airport, city=best_dijkstra[i].city, country=best_dijkstra[i].country
+            ))
+            file_dijkstra.write("To: {airport} - {city}, {country}\n".format(
+                airport=best_dijkstra[i + 1].airport, city=best_dijkstra[i + 1].city,
+                country=best_dijkstra[i + 1].country
+            ))
+            file_dijkstra.write("Duration: {}km\n".format(flight_current.distance))
+            total_duration += flight_current.distance
+            file_dijkstra.write("Time: {}h\n".format(flight_current.fly_time))
+            total_time += flight_current.fly_time
+            file_dijkstra.write("Price: {}$\n".format(flight_current.price))
+            total_price += flight_current.price
+            file_dijkstra.write("----------------------------\n")
+
+        file_dijkstra.write("Total Price: {}$\n".format(total_price))
+        file_dijkstra.write("Total Duration: {}km\n".format(total_duration))
+        file_dijkstra.write("Total Time: {}h\n".format(total_time))
 
     #  write astar
 
-    file_astar.write("A* Algorithm\n")
-    file_astar.write("Execution Time: {}s\n".format(exetime_astar))
-    file_astar.write(".-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-\n")
+    with open('nine-UIAI4021-PR1-Q1(AStar).txt', 'w', encoding='utf-8') as file_astar:
 
-    total_duration = 0
-    total_time = 0
-    total_price = 0
+        file_astar.write("A* Algorithm\n")
+        file_astar.write("Execution Time: {}s\n".format(exetime_astar))
+        file_astar.write(".-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-\n")
 
-    for i in range(len(best_astar) - 1):
-        file_astar.write("Flight #{}".format(i + 1))
-        flight_current = graph.get_edge_data(best_astar[i], best_astar[i + 1])['weight']
-        file_astar.write("({})\n".format(flight_current.airline))
-        file_astar.write("From: {}\n".format(best_astar[i].airport))
-        file_astar.write("To: {}\n".format(best_astar[i + 1].airport))
-        file_astar.write("Duration: {}km\n".format(flight_current.distance))
-        total_duration += flight_current.distance
-        file_astar.write("Time: {}h\n".format(flight_current.fly_time))
-        total_time += flight_current.fly_time
-        file_astar.write("Price: {}$\n".format(flight_current.price))
-        total_price += flight_current.price
-        file_astar.write("----------------------------\n")
+        total_duration = 0
+        total_time = 0
+        total_price = 0
 
-    file_astar.write("Total Price: {}$\n".format(total_price))
-    file_astar.write("Total Duration: {}km\n".format(total_duration))
-    file_astar.write("Total Time: {}h\n".format(total_time))
+        for i in range(len(best_astar) - 1):
+            file_astar.write("Flight #{}".format(i + 1))
+            flight_current = graph.get_edge_data(best_astar[i], best_astar[i + 1])['weight']
+            file_astar.write("({})\n".format(flight_current.airline))
+            file_astar.write("From: {airport} - {city}, {country}\n".format(
+                airport=best_astar[i].airport, city=best_astar[i].city, country=best_astar[i].country
+            ))
+            file_astar.write("To: {airport} - {city}, {country}\n".format(
+                airport=best_astar[i + 1].airport, city=best_astar[i + 1].city, country=best_astar[i + 1].country
+            ))
+            file_astar.write("Duration: {}km\n".format(flight_current.distance))
+            total_duration += flight_current.distance
+            file_astar.write("Time: {}h\n".format(flight_current.fly_time))
+            total_time += flight_current.fly_time
+            file_astar.write("Price: {}$\n".format(flight_current.price))
+            total_price += flight_current.price
+            file_astar.write("----------------------------\n")
+
+        file_astar.write("Total Price: {}$\n".format(total_price))
+        file_astar.write("Total Duration: {}km\n".format(total_duration))
+        file_astar.write("Total Time: {}h\n".format(total_time))
 
 
