@@ -61,61 +61,59 @@ def rmse(y_true, y_pred):
     return np.sqrt(np.mean((y_pred - y_true) ** 2))
 
 
-df = pd.read_csv('Flight_Price_Dataset_Q2.csv')
+if __name__ == '__main__':
+    df = pd.read_csv('Flight_Price_Dataset_Q2.csv')
 
-# print(df['class'].value_counts())
+    departure_time_dict = {
+        'Morning': 1,
+        'Afternoon': 2,
+        'Evening': 3,
+        'Night': 4,
+        'Late_Night': 5,
+        'Early_Morning': 6,
+    }
 
-departure_time_dict = {
-    'Morning': 1,
-    'Afternoon': 2,
-    'Evening': 3,
-    'Night': 4,
-    'Late_Night': 5,
-    'Early_Morning': 6,
-}
+    stops_dict = {
+        'zero': 1,
+        'one': 2,
+        'two_or_more': 3
+    }
 
-stops_dict = {
-    'zero': 1,
-    'one': 2,
-    'two_or_more': 3
-}
+    arrival_time_dict = {
 
-arrival_time_dict = {
+        'Morning': 1,
+        'Afternoon': 2,
+        'Evening': 3,
+        'Early_Morning': 4,
+        'Night': 5,
+        'Late_Night': 6
+    }
 
-    'Morning': 1,
-    'Afternoon': 2,
-    'Evening': 3,
-    'Early_Morning': 4,
-    'Night': 5,
-    'Late_Night': 6
-}
+    class_dict = {
+        'Business': 1,
+        'Economy': 2
+    }
 
-class_dict = {
-    'Business': 1,
-    'Economy': 2
-}
+    df['Departure_time_dict'] = df['departure_time'].map(departure_time_dict)
+    df['stops_dict'] = df['stops'].map(stops_dict)
+    df['arrival_time_dict'] = df['arrival_time'].map(arrival_time_dict)
+    df['class_dict'] = df['class'].map(class_dict)
 
-df['Departure_time_dict'] = df['departure_time'].map(departure_time_dict)
-df['stops_dict'] = df['stops'].map(stops_dict)
-df['arrival_time_dict'] = df['arrival_time'].map(arrival_time_dict)
-df['class_dict'] = df['class'].map(class_dict)
+    df2 = df.copy()
+    to_drop = ['departure_time', 'stops', 'arrival_time', 'class', 'price']
+    df2.drop(to_drop, inplace=True, axis=1)
+    X = df2.values
 
-df2 = df.copy()
-to_drop = ['departure_time','stops' ,'arrival_time','class','price']
-df2.drop(to_drop,inplace=True,axis=1)
-X = df2.values
+    print(X)
+    y = np.array(df['price'])
 
-print(X)
-y = np.array(df['price'])
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1, shuffle=True)
 
+    linreg = LinearRegression(learning_rate=0.0001, n_iters=1000)
+    linreg.fit(X_train, y_train)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1,shuffle=True)
-
-linreg = LinearRegression(learning_rate=0.0001, n_iters=1000)
-linreg.fit(X_train, y_train)
-
-predictions = linreg.predict(X_test)
-print(f"RMSE: {rmse(y_test, predictions)}")
-print(mean_squared_error(y_test,predictions))
-print(mean_absolute_error(y_test,predictions))
-print(r2_score(y_test,predictions))
+    predictions = linreg.predict(X_test)
+    print(f"RMSE: {rmse(y_test, predictions)}")
+    print(mean_squared_error(y_test, predictions))
+    print(mean_absolute_error(y_test, predictions))
+    print(r2_score(y_test, predictions))
