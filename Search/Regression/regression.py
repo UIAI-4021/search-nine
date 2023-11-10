@@ -7,8 +7,6 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import r2_score
 
 
-
-
 class LinearRegression:
     def __init__(self, learning_rate, n_iters=1000):
         # init parameters
