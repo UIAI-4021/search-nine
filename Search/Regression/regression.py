@@ -34,7 +34,6 @@ class LinearRegression:
     def fit(self, X, y):
         # get number of samples & features
         self.n_samples, self.n_features = X.shape
-        print(self.n_features)
         # init weights & bias
         self._init_params()
 
@@ -96,29 +95,18 @@ df['stops_dict'] = df['stops'].map(stops_dict)
 df['arrival_time_dict'] = df['arrival_time'].map(arrival_time_dict)
 df['class_dict'] = df['class'].map(class_dict)
 
-# print(df['class_dict'].value_counts())
+df2 = df.copy()
+to_drop = ['departure_time','stops' ,'arrival_time','class','price']
+df2.drop(to_drop,inplace=True,axis=1)
+X = df2.values
 
-X1 = np.array(df['Departure_time_dict'])
-X2 = np.array(df['stops_dict'])
-X3 = np.array(df['arrival_time_dict'])
-X4 = np.array(df['class_dict'])
-X5 = np.array(df['duration'])
-X6 = np.array(df['days_left'])
-
+print(X)
 y = np.array(df['price'])
-X1 = X1.reshape(270138, 1)
-X2 = X2.reshape(270138, 1)
-new=
-X3 = X3.reshape(270138, 1)
-X4 = X4.reshape(270138, 1)
-X5 = X5.reshape(270138, 1)
-X6 = X6.reshape(270138, 1)
 
-# y = y.reshape(270138, 1)
 
-X_train, X_test, y_train, y_test = train_test_split(X1, X2, X3, X4, X5, X6, y, test_size=0.2, random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1,shuffle=True)
 
-linreg = LinearRegression(learning_rate=0.01, n_iters=1000)
+linreg = LinearRegression(learning_rate=0.1, n_iters=1000)
 linreg.fit(X_train, y_train)
 
 predictions = linreg.predict(X_test)
