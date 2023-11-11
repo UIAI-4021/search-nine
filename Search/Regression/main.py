@@ -61,5 +61,5 @@ if __name__ == '__main__':
     dataset = pd.read_csv('Flight_Price_Dataset_Q2.csv')
 
 
-    for index, row in dataset.iterrows():
-        pass
+
+
