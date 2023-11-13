@@ -19,6 +19,8 @@ class LinearRegression:
         self.n_iters = n_iters
         self.weights = None
         self.bias = None
+        self.cost_history = []
+
 
     def _init_params(self):
         self.weights = np.zeros(self.n_features)
@@ -54,9 +56,18 @@ class LinearRegression:
             # update weights & bias with gradients
             self._update_params(dw, db)
 
+            # calculate and store the cost
+            cost = self._calculate_cost(y, y_pred)
+            self.cost_history.append(cost)
+
+
     def predict(self, X):
         y_pred = self._get_prediction(X)
         return y_pred
+
+    def _calculate_cost(self, y, y_pred):
+        # calculate the mean squared error
+        return np.mean((y_pred - y) ** 2)
 
 
 # define helper function to evaluate
@@ -131,6 +142,13 @@ if __name__ == '__main__':
         input_file.write(f"R2: {r2_score(y_test, predictions)}\n")
 
     input_file.close()
+
+    # Plot the cost function over iterations
+    plt.plot(range(1, len(linreg.cost_history) + 1), linreg.cost_history, marker='o')
+    plt.xlabel('Iteration')
+    plt.ylabel('Cost')
+    plt.title('Cost Function over Iterations')
+    plt.show()
 
 
 
