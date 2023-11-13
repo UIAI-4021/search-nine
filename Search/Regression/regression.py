@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import mean_absolute_error
@@ -101,21 +100,20 @@ df['arrival_time_dict'] = df['arrival_time'].map(arrival_time_dict)
 df['class_dict'] = df['class'].map(class_dict)
 
 df2 = df.copy()
-to_drop = ['departure_time','stops' ,'arrival_time','class','price']
-df2.drop(to_drop,inplace=True,axis=1)
+to_drop = ['departure_time', 'stops', 'arrival_time', 'class', 'price']
+df2.drop(to_drop, inplace=True, axis=1)
 X = df2.values
 
-print(X)
+# print(X)
 y = np.array(df['price'])
 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1, shuffle=True)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1,shuffle=True)
-
-linreg = LinearRegression(learning_rate=0.0001, n_iters=1000)
+linreg = LinearRegression(learning_rate=0.001, n_iters=10000)
 linreg.fit(X_train, y_train)
 
 predictions = linreg.predict(X_test)
 print(f"RMSE: {rmse(y_test, predictions)}")
-print(mean_squared_error(y_test,predictions))
-print(mean_absolute_error(y_test,predictions))
-print(r2_score(y_test,predictions))
+print(mean_squared_error(y_test, predictions))
+print(mean_absolute_error(y_test, predictions))
+print(r2_score(y_test, predictions))
