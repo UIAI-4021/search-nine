@@ -1,5 +1,9 @@
 import numpy as np
 import pandas as pd
+import time
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
@@ -8,7 +12,7 @@ from sklearn.metrics import r2_score
 
 
 class LinearRegression:
-    def __init__(self, learning_rate, n_iters=1000):
+    def __init__(self, learning_rate, n_iters=10000):
         # init parameters
         self.lr = learning_rate
         self.n_iters = n_iters
@@ -63,33 +67,33 @@ if __name__ == '__main__':
     df = pd.read_csv('Flight_Price_Dataset_Q2.csv')
 
     departure_time_dict = {
-        'Morning': 1,
-        'Afternoon': 2,
-        'Evening': 3,
-        'Night': 4,
-        'Late_Night': 5,
-        'Early_Morning': 6,
+        'Morning': 6,
+        'Afternoon': 5,
+        'Evening': 4,
+        'Night': 3,
+        'Late_Night': 2,
+        'Early_Morning': 1,
     }
 
     stops_dict = {
-        'zero': 1,
+        'zero': 3,
         'one': 2,
-        'two_or_more': 3
+        'two_or_more': 1
     }
 
     arrival_time_dict = {
 
-        'Morning': 1,
-        'Afternoon': 2,
-        'Evening': 3,
-        'Early_Morning': 4,
-        'Night': 5,
-        'Late_Night': 6
+        'Morning': 6,
+        'Afternoon': 5,
+        'Evening': 4,
+        'Early_Morning': 3,
+        'Night': 2,
+        'Late_Night': 1
     }
 
     class_dict = {
-        'Business': 1,
-        'Economy': 2
+        'Business': 2,
+        'Economy': 1
     }
 
     df['Departure_time_dict'] = df['departure_time'].map(departure_time_dict)
@@ -107,12 +111,23 @@ if __name__ == '__main__':
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1, shuffle=True)
 
-    linreg = LinearRegression(learning_rate=0.0001, n_iters=1000)
+    start_time = time.time()
+
+    linreg = LinearRegression(learning_rate=0.001, n_iters=10000)
     linreg.fit(X_train, y_train)
 
+    end_time = time.time()
+
     predictions = linreg.predict(X_test)
-    print("Logs:")
-    print("MSE: {}".format(mean_squared_error(y_test, predictions)))
+    execution_time = end_time - start_time
+    print(f"Training Time: {execution_time} s")
+    print("logs: ")
+    print("MSE: ", mean_squared_error(y_test, predictions))
     print(f"RMSE: {rmse(y_test, predictions)}")
-    print(mean_absolute_error(y_test, predictions))
-    print(r2_score(y_test, predictions))
+    print("MAE: ", mean_absolute_error(y_test, predictions))
+    print("R2: ", r2_score(y_test, predictions))
+
+
+
+
+
