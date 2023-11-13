@@ -134,10 +134,16 @@ if __name__ == '__main__':
     execution_time = end_time - start_time
 
     with open('nine-UIAI4021-PR1-Q2.txt', 'w', encoding='utf-8') as input_file:
+        input_file.write(f"PRICE =  {linreg.weights[0]} * [departure_time] + "
+                         f"{linreg.weights[1]} * [stops] +"
+                         f"{linreg.weights[2]} * [arrival_time] +"
+                         f"{linreg.weights[3]} * [class] +"
+                         f"{linreg.weights[4]} * [duration] +"
+                         f"{linreg.weights[5]} * [days_left]\n")
         input_file.write(f"Training Time: {execution_time} s\n")
         input_file.write("logs: \n")
         input_file.write(f"MSE: {mean_squared_error(y_test, predictions)}\n")
-        input_file.write(f"RMSE: {rmse(y_test, predictions)}\n")
+        input_filete(f"RMSE: {rmse(y_test, predictions)}\n")
         input_file.write(f"MAE: {mean_absolute_error(y_test, predictions)}\n")
         input_file.write(f"R2: {r2_score(y_test, predictions)}\n")
 
