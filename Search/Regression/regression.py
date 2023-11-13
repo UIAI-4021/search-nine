@@ -143,7 +143,7 @@ if __name__ == '__main__':
         input_file.write(f"Training Time: {execution_time} s\n")
         input_file.write("logs: \n")
         input_file.write(f"MSE: {mean_squared_error(y_test, predictions)}\n")
-        input_filete(f"RMSE: {rmse(y_test, predictions)}\n")
+        input_file.write(f"RMSE: {rmse(y_test, predictions)}\n")
         input_file.write(f"MAE: {mean_absolute_error(y_test, predictions)}\n")
         input_file.write(f"R2: {r2_score(y_test, predictions)}\n")
 
