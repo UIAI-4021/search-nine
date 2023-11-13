@@ -107,7 +107,6 @@ if __name__ == '__main__':
     df2.drop(to_drop, inplace=True, axis=1)
     X = df2.values
 
-    print(X)
     y = np.array(df['price'])
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1, shuffle=True)
@@ -121,19 +120,17 @@ if __name__ == '__main__':
 
     predictions = linreg.predict(X_test)
     execution_time = end_time - start_time
-
     with open('nine-UIAI4021-PR1-Q2.txt', 'w', encoding='utf-8') as input_file:
+        input_file.write(f"PRICE =  {linreg.weights[0]} * [departure_time] + "
+                         f"{linreg.weights[1]} * [stops] +"
+                         f"{linreg.weights[2]} * [arrival_time] +"
+                         f"{linreg.weights[3]} * [class] +"
+                         f"{linreg.weights[4]} * [duration] +"
+                         f"{linreg.weights[5]} * [days_left]\n")
         input_file.write(f"Training Time: {execution_time} s\n")
         input_file.write("logs: \n")
         input_file.write(f"MSE: {mean_squared_error(y_test, predictions)}\n")
         input_file.write(f"RMSE: {rmse(y_test, predictions)}\n")
         input_file.write(f"MAE: {mean_absolute_error(y_test, predictions)}\n")
         input_file.write(f"R2: {r2_score(y_test, predictions)}\n")
-
-    input_file.close()
-
-
-
-
-
 
