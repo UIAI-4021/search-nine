@@ -198,6 +198,8 @@ if __name__ == '__main__':
         file_dijkstra.write("Total Duration: {}km\n".format(total_duration))
         file_dijkstra.write("Total Time: {}h\n".format(total_time))
 
+    file_dijkstra.close()
+
     #  write astar
 
     with open('nine-UIAI4021-PR1-Q1(AStar).txt', 'w', encoding='utf-8') as file_astar:
@@ -231,4 +233,6 @@ if __name__ == '__main__':
         file_astar.write("Total Price: {}$\n".format(total_price))
         file_astar.write("Total Duration: {}km\n".format(total_duration))
         file_astar.write("Total Time: {}h\n".format(total_time))
+
+    file_astar.close()
 
