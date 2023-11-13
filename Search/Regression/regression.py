@@ -118,7 +118,6 @@ if __name__ == '__main__':
     df2.drop(to_drop, inplace=True, axis=1)
     X = df2.values
 
-    print(X)
     y = np.array(df['price'])
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1, shuffle=True)
