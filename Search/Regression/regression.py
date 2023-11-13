@@ -111,7 +111,8 @@ if __name__ == '__main__':
     linreg.fit(X_train, y_train)
 
     predictions = linreg.predict(X_test)
+    print("Logs:")
+    print("MSE: {}".format(mean_squared_error(y_test, predictions)))
     print(f"RMSE: {rmse(y_test, predictions)}")
-    print(mean_squared_error(y_test, predictions))
     print(mean_absolute_error(y_test, predictions))
     print(r2_score(y_test, predictions))
